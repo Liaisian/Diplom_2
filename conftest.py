@@ -23,6 +23,6 @@ def create_user():
 
 @pytest.fixture()
 def ingredients():
-    response = requests.get(f"{url.MAIN_URL}/ingredients")
+    response = requests.get(f"{url.MAIN_URL}/api/ingredients")
     return response.json()['data']
 

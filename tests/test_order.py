@@ -15,7 +15,7 @@ class TestOrder:
             "ingredients": [ingredients[0]['_id'], ingredients[1]['_id']]
         }
 
-        response = requests.post(f"{url.MAIN_URL}/orders", headers={"Authorization": f"Bearer {token}"}, json=order_data)
+        response = requests.post(f"{url.MAIN_URL}/api/orders", headers={"Authorization": f"Bearer {token}"}, json=order_data)
         # print(response.text)
         assert response.status_code == 200
         response_data = response.json()
@@ -29,7 +29,7 @@ class TestOrder:
             "ingredients": [ingredients[0]['_id'], ingredients[1]['_id']]
         }
 
-        response = requests.post(f"{url.MAIN_URL}/orders", data=order_data)
+        response = requests.post(f"{url.MAIN_URL}/api/orders", data=order_data)
 
         assert response.status_code == 401
         response_data = response.json()
@@ -43,7 +43,7 @@ class TestOrder:
 
         order_data = {}
 
-        response = requests.post(f"{url.MAIN_URL}/orders", headers={"Authorization": f"Bearer {token}"}, json=order_data)
+        response = requests.post(f"{url.MAIN_URL}/api/orders", headers={"Authorization": f"Bearer {token}"}, json=order_data)
 
         assert response.status_code == 400
         response_data = response.json()
@@ -60,7 +60,7 @@ class TestOrder:
             "ingredients": ["invalid_hash_1", "invalid_hash_2"]
         }
 
-        response = requests.post(f"{url.MAIN_URL}/orders", headers={"Authorization": f"Bearer {token}"}, json=order_data)
+        response = requests.post(f"{url.MAIN_URL}/api/orders", headers={"Authorization": f"Bearer {token}"}, json=order_data)
 
         assert response.status_code == 500
 
@@ -70,7 +70,7 @@ class TestOrder:
         user_data, response_post = create_user
         token = response_post.json().get('accessToken')
 
-        response = requests.get(f"{url.MAIN_URL}/orders", headers={"Authorization": f"Bearer {token}"})
+        response = requests.get(f"{url.MAIN_URL}/api/orders", headers={"Authorization": f"Bearer {token}"})
 
         assert response.status_code == 200
         response_data = response.json()
@@ -79,7 +79,7 @@ class TestOrder:
     @allure.title('Получение заказа неавторизованного пользователя')
     @allure.description('Проверка: статус 401, сообщение с ошибкой.')
     def test_get_orders_without_auth(self):
-        response = requests.get(f"{url.MAIN_URL}/orders")
+        response = requests.get(f"{url.MAIN_URL}/api/orders")
 
         assert response.status_code == 401
         response_data = response.json()
